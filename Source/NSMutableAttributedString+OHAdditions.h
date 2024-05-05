@@ -24,12 +24,31 @@
 
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import "NSAttributedString+OHAdditions.h"
 
 /**
  *  Convenience methods to modify `NSMutableAttributedString` instances
  */
 @interface NSMutableAttributedString (OHAdditions)
+
+- (void)appendString:(NSString *)string;
+- (void)appendFormat:(NSString*)format, ... NS_FORMAT_FUNCTION(1,2);
+
++ (instancetype)attributedStringWithAttributedString:(NSAttributedString *)attrStr addingAttributes:(NSDictionary *)attributes;
+
+/**
+ *  Build an NSAttributedString from a format and arguments, (like `stringWithFormat:`)
+ *
+ *  @param format The format to build the attributed string from. You can use every
+ *                placeholder that you usually use in `-[NSString stringWithFormat:]`
+ *
+ *  @return A new attributed string with the formatted string and default attributes
+ *
+ *  @note This is a convenience method that calls `-[NSAttributedString initWithString:]`
+ *        with its parameter build from `-[NSString stringWithFormat:]`.
+ */
++ (instancetype)attributedStringWithFormat:(NSString*)format, ... NS_FORMAT_FUNCTION(1,2);
+
 
 /******************************************************************************/
 #pragma mark - Text Font
@@ -44,7 +63,7 @@
  *  @note You can take advantage of `UIFont+OHAdditions` category to create a
  *        font with a given family, size and traits.
  */
-- (void)setFont:(UIFont*)font;
+- (void)setFont:(KBFont*)font;
 
 /**
  *  Set the font for the given range of characters.
@@ -55,7 +74,7 @@
  *  @note You can take advantage of `UIFont+OHAdditions` category to create a
  *        font with a given family, size and traits.
  */
-- (void)setFont:(UIFont*)font range:(NSRange)range;
+- (void)setFont:(KBFont*)font range:(NSRange)range;
 
 /******************************************************************************/
 #pragma mark - Text Color
@@ -65,7 +84,7 @@
  *
  *  @param color The foreground color to apply
  */
-- (void)setTextColor:(UIColor*)color;
+- (void)setTextColor:(KBColor*)color;
 
 /**
  *  Set the foreground text color for the given range of characters.
@@ -73,14 +92,14 @@
  *  @param color The foreground color to apply
  *  @param range The range of characters to which the color should apply.
  */
-- (void)setTextColor:(UIColor*)color range:(NSRange)range;
+- (void)setTextColor:(KBColor*)color range:(NSRange)range;
 
 /**
  *  Set the background text color for the whole attributed string.
  *
  *  @param color The background color to apply
  */
-- (void)setTextBackgroundColor:(UIColor*)color;
+- (void)setTextBackgroundColor:(KBColor*)color;
 
 /**
  *  Set the background text color for the given range of characters.
@@ -88,7 +107,7 @@
  *  @param color The background color to apply
  *  @param range The range of characters to which the color should apply.
  */
-- (void)setTextBackgroundColor:(UIColor*)color range:(NSRange)range;
+- (void)setTextBackgroundColor:(KBColor*)color range:(NSRange)range;
 
 /******************************************************************************/
 #pragma mark - Text Underlining
@@ -135,7 +154,7 @@
  *  @param color The color to apply to the underlining. If nil, the underlining
  *               will be the same color as the text foreground color.
  */
-- (void)setTextUnderlineColor:(UIColor*)color;
+- (void)setTextUnderlineColor:(KBColor*)color;
 
 /**
  *  Set the underline color for the given range of characters.
@@ -146,7 +165,7 @@
  *  @param range The range of characters to which the underline color should
  *               apply.
  */
-- (void)setTextUnderlineColor:(UIColor*)color range:(NSRange)range;
+- (void)setTextUnderlineColor:(KBColor*)color range:(NSRange)range;
 
 /******************************************************************************/
 #pragma mark - Text Style & Traits
@@ -173,7 +192,7 @@
  *        set (even if it did not exist before), to be able to change the font
  *        traits for those ranges as well instead of keeping the default.
  */
-- (void)changeFontTraitsWithBlock:(UIFontDescriptorSymbolicTraits(^)(UIFontDescriptorSymbolicTraits currentTraits, NSRange aRange))block;
+- (void)changeFontTraitsWithBlock:(KBFontDescriptorSymbolicTraits(^)(KBFontDescriptorSymbolicTraits currentTraits, NSRange aRange))block;
 
 /**
  *  Enumerates on every font in the given range of characters, allowing you to
@@ -199,7 +218,7 @@
  *        traits for those ranges as well instead of keeping the default.
  */
 - (void)changeFontTraitsInRange:(NSRange)range
-                      withBlock:(UIFontDescriptorSymbolicTraits(^)(UIFontDescriptorSymbolicTraits currentTraits, NSRange aRange))block;
+                      withBlock:(KBFontDescriptorSymbolicTraits(^)(KBFontDescriptorSymbolicTraits currentTraits, NSRange aRange))block;
 
 /**
  *  Change every fonts of the attributed string to their bold variant.

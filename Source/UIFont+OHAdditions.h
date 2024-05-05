@@ -23,12 +23,13 @@
  ******************************************************************************/
 
 
-#import <UIKit/UIKit.h>
+#import "Kit.h"
+#import "KBFont.h"
 
 /**
  *  Convenience methods to create new `UIFont` instances and query font traits
  */
-@interface UIFont (OHAdditions)
+@interface KBFont (OHAdditions)
 
 /**
  *  Returns a font given a family name, size, and whether it should be bold
@@ -65,7 +66,7 @@
  */
 + (instancetype)fontWithFamily:(NSString*)fontFamily
                           size:(CGFloat)size
-                        traits:(UIFontDescriptorSymbolicTraits)symTraits;
+                        traits:(KBFontDescriptorSymbolicTraits)symTraits;
 
 /**
  *  Returns a font given its Postscript Name and size
@@ -90,7 +91,7 @@
  *  @return The UIFont variant  corresponding to the receiver but with the
  *          new symbolic traits
  */
-- (instancetype)fontWithSymbolicTraits:(UIFontDescriptorSymbolicTraits)symTraits;
+- (instancetype)fontWithSymbolicTraits:(KBFontDescriptorSymbolicTraits)symTraits;
 
 /**
  *  Returns the symbolic traits of the font, telling if its bold, italics, etc.
@@ -100,6 +101,6 @@
  *  @note This is a convenience method that simply calls
  *        fontDescriptor.symbolicTraits on the receiver.
  */
-- (UIFontDescriptorSymbolicTraits)symbolicTraits;
+- (KBFontDescriptorSymbolicTraits)symbolicTraits;
 
 @end

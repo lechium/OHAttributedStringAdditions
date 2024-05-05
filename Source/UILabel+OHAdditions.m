@@ -24,13 +24,15 @@
 
 #import "UILabel+OHAdditions.h"
 
-@implementation UILabel (OHAdditions)
+@implementation KBLabel (OHAdditions)
 
 - (NSTextContainer*)currentTextContainer
 {
     NSTextContainer *textContainer = [[NSTextContainer alloc] initWithSize:self.bounds.size];
     textContainer.lineFragmentPadding  = 0;
+#ifdef IS_IOS
     textContainer.maximumNumberOfLines = (NSUInteger)self.numberOfLines;
+#endif
     textContainer.lineBreakMode = self.lineBreakMode;
     return textContainer;
 }
@@ -38,8 +40,11 @@
 - (NSUInteger)characterIndexAtPoint:(CGPoint)point
 {
     NSTextContainer* textContainer = self.currentTextContainer;
+#ifdef IS_IOS
     NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:self.attributedText];
-
+#else
+    NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:self.attributedStringValue];
+#endif
     NSLayoutManager *layoutManager = [NSLayoutManager new];
     [textStorage addLayoutManager:layoutManager];
     [layoutManager addTextContainer:textContainer];

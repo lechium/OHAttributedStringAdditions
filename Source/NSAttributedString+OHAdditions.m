@@ -142,20 +142,20 @@
 /******************************************************************************/
 #pragma mark - Text Font
 
-+ (UIFont*)defaultFont
++ (KBFont*)defaultFont
 {
     // The default font used for NSAttributedString according to the doc
-    return [UIFont fontWithName:@"Helvetica" size:12];
+    return (KBFont*)[KBFont fontWithName:@"Helvetica" size:12];
 }
 
-- (UIFont*)fontAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)aRange
+- (KBFont*)fontAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)aRange
 {
     return [self attribute:NSFontAttributeName atIndex:index effectiveRange:aRange];
 }
 
 - (void)enumerateFontsInRange:(NSRange)enumerationRange
              includeUndefined:(BOOL)includeUndefined
-                   usingBlock:(void (^)(UIFont*, NSRange, BOOL *))block
+                   usingBlock:(void (^)(KBFont*, NSRange, BOOL *))block
 {
     NSParameterAssert(block);
     
@@ -171,12 +171,12 @@
 /******************************************************************************/
 #pragma mark - Text Color
 
-- (UIColor*)textColorAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)aRange
+- (KBColor*)textColorAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)aRange
 {
     return [self attribute:NSForegroundColorAttributeName atIndex:index effectiveRange:aRange];
 }
 
-- (UIColor*)textBackgroundColorAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)aRange
+- (KBColor*)textBackgroundColorAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)aRange
 {
     return [self attribute:NSBackgroundColorAttributeName atIndex:index effectiveRange:aRange];
 }
@@ -196,7 +196,7 @@
     return [attr integerValue];
 }
 
-- (UIColor*)textUnderlineColorAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)aRange
+- (KBColor*)textUnderlineColorAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)aRange
 {
     return [self attribute:NSUnderlineColorAttributeName atIndex:index effectiveRange:aRange];
 }
@@ -206,17 +206,17 @@
 
 - (BOOL)isFontBoldAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)aRange
 {
-    UIFont* font = [self fontAtIndex:index effectiveRange:aRange];
-    UIFontDescriptorSymbolicTraits symTraits = font.fontDescriptor.symbolicTraits;
-    return (symTraits & UIFontDescriptorTraitBold) != 0;
+    KBFont* font = [self fontAtIndex:index effectiveRange:aRange];
+    KBFontDescriptorSymbolicTraits symTraits = font.fontDescriptor.symbolicTraits;
+    return (symTraits & NSFontDescriptorTraitBold) != 0;
 }
 
 - (BOOL)isFontItalicsAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)aRange
 {
-    UIFont* font = [self fontAtIndex:index effectiveRange:aRange];
-    UIFontDescriptorSymbolicTraits symTraits = font.fontDescriptor.symbolicTraits;
-    return (symTraits & UIFontDescriptorTraitItalic) != 0;
-}
+    KBFont* font = [self fontAtIndex:index effectiveRange:aRange];
+    KBFontDescriptorSymbolicTraits symTraits = font.fontDescriptor.symbolicTraits;
+    return (symTraits & NSFontDescriptorTraitItalic) != 0;
+}//FIXME: make it work with both iOS and macOS
 
 /******************************************************************************/
 #pragma mark - Links

@@ -22,13 +22,14 @@
  *
  ******************************************************************************/
 
-#import <UIKit/UIKit.h>
-
+#import <Foundation/Foundation.h>
+#import "NSAttributedString+OHAdditions.h"
+#import "KBLabel.h"
 /**
  *  Convenience methods to get text layout information from the UILabel and
  *  especially determine which character is at a given point.
  */
-@interface UILabel (OHAdditions)
+@interface KBLabel (OHAdditions)
 
 /**
  *  Returns a new `NSTextContainer` configured with the current label's settings

@@ -24,7 +24,9 @@
 
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import "KBFont.h"
+#import "KBLabel.h"
+#import "KBColor.h"
 
 /**
  *  Convenience methods to create and manipulate `NSAttributedString` instances
@@ -139,7 +141,7 @@
  *
  *  @return The "Helvetica" font with size 12.
  */
-+ (UIFont*)defaultFont;
++ (KBFont*)defaultFont;
 
 /**
  *  Returns the font applied at the given character index.
@@ -159,7 +161,7 @@
  *  @return The value for the font attribute of the character at index `index`,
  *          or `nil` if there is no font attribute.
  */
-- (UIFont*)fontAtIndex:(NSUInteger)index
+- (KBFont*)fontAtIndex:(NSUInteger)index
         effectiveRange:(NSRangePointer)aRange;
 
 /**
@@ -190,7 +192,7 @@
  */
 - (void)enumerateFontsInRange:(NSRange)enumerationRange
              includeUndefined:(BOOL)includeUndefined
-                   usingBlock:(void (^)(UIFont* font, NSRange range, BOOL *stop))block;
+                   usingBlock:(void (^)(KBFont* font, NSRange range, BOOL *stop))block;
 
 /******************************************************************************/
 #pragma mark - Text Color
@@ -213,7 +215,7 @@
  *  @return The value for the foreground color attribute of the character at
  *          index `index`, or `nil` if there is no foreground color attribute.
  */
-- (UIColor*)textColorAtIndex:(NSUInteger)index
+- (KBColor*)textColorAtIndex:(NSUInteger)index
               effectiveRange:(NSRangePointer)aRange;
 
 /**
@@ -234,7 +236,7 @@
  *  @return The value for the background color attribute of the character at
  *          index `index`, or `nil` if there is no background color attribute.
  */
-- (UIColor*)textBackgroundColorAtIndex:(NSUInteger)index
+- (KBColor*)textBackgroundColorAtIndex:(NSUInteger)index
                         effectiveRange:(NSRangePointer)aRange;
 
 /******************************************************************************/
@@ -307,7 +309,7 @@
  *  @return The value for the underline color attribute of the character at
  *          index `index`, or `nil` if there is no underline color attribute.
  */
-- (UIColor*)textUnderlineColorAtIndex:(NSUInteger)index
+- (KBColor*)textUnderlineColorAtIndex:(NSUInteger)index
                        effectiveRange:(NSRangePointer)aRange;
 
 /******************************************************************************/

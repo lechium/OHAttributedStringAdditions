@@ -1,0 +1,23 @@
+#import "Kit.h"
+//UIFontDescriptorFamilyAttribute
+//UIFontDescriptorTraitsAttribute
+//NSFontSymbolicTrait
+//UIFontDescriptorNameAttribute
+#ifdef IS_MACOS
+@interface KBFont: NSFont
+typedef NSFontDescriptorSymbolicTraits KBFontDescriptorSymbolicTraits;
+#define KBFontFamilyAttribute NSFontFamilyAttribute
+#define KBFontTraitsAttribute NSFontTraitsAttribute
+#define KBFontSymbolicTrait NSFontSymbolicTrait
+#define KBFontDescriptor NSFontDescriptor
+#define KBFontNameAttribute NSFontNameAttribute
+#else
+@interface KBFont: UIFont
+typedef  UIFontDescriptorSymbolicTraits KBFontDescriptorSymbolicTraits;
+#define KBFontFamilyAttribute UIFontDescriptorFamilyAttribute
+#define KBFontTraitsAttribute UIFontDescriptorTraitsAttribute
+#define KBFontSymbolicTrait UIFontSymbolicTrait
+#define KBFontDescriptor UIFontDescriptor
+#define KBFontNameAttribute UIFontDescriptorNameAttribute
+#endif
+@end

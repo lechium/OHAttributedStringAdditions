@@ -8,49 +8,49 @@
 
 #import "UIFont+OHAdditions.h"
 
-@implementation UIFont (OHAdditions)
+@implementation KBFont (OHAdditions)
 
 + (instancetype)fontWithFamily:(NSString*)fontFamily
                           size:(CGFloat)size
                           bold:(BOOL)isBold
                         italic:(BOOL)isItalic
 {
-    UIFontDescriptorSymbolicTraits traits = 0;
-    if (isBold) traits |= UIFontDescriptorTraitBold;
-    if (isItalic) traits |= UIFontDescriptorTraitItalic;
+    KBFontDescriptorSymbolicTraits traits = 0;
+    if (isBold) traits |= NSFontDescriptorTraitBold;
+    if (isItalic) traits |= NSFontDescriptorTraitItalic;
     
     return [self fontWithFamily:fontFamily size:size traits:traits];
 }
 
 + (instancetype)fontWithFamily:(NSString*)fontFamily
                           size:(CGFloat)size
-                        traits:(UIFontDescriptorSymbolicTraits)symTraits
+                        traits:(KBFontDescriptorSymbolicTraits)symTraits
 {
-    NSDictionary* attributes = @{ UIFontDescriptorFamilyAttribute: fontFamily,
-                                  UIFontDescriptorTraitsAttribute: @{UIFontSymbolicTrait:@(symTraits)}};
+    NSDictionary* attributes = @{ KBFontFamilyAttribute: fontFamily,
+                                  KBFontTraitsAttribute: @{KBFontSymbolicTrait:@(symTraits)}};
     
-    UIFontDescriptor* desc = [UIFontDescriptor fontDescriptorWithFontAttributes:attributes];
-    return [UIFont fontWithDescriptor:desc size:size];
+    KBFontDescriptor* desc = [KBFontDescriptor fontDescriptorWithFontAttributes:attributes];
+    return (KBFont*)[KBFont fontWithDescriptor:desc size:size];
 }
 
 + (instancetype)fontWithPostscriptName:(NSString*)postscriptName size:(CGFloat)size
 {
     // UIFontDescriptorNameAttribute = Postscript name, should not change across iOS versions.
-    NSDictionary* attributes = @{ UIFontDescriptorNameAttribute: postscriptName };
+    NSDictionary* attributes = @{ KBFontNameAttribute: postscriptName };
     
-    UIFontDescriptor* desc = [UIFontDescriptor fontDescriptorWithFontAttributes:attributes];
-    return [UIFont fontWithDescriptor:desc size:size];
+    KBFontDescriptor* desc = [KBFontDescriptor fontDescriptorWithFontAttributes:attributes];
+    return (KBFont*)[KBFont fontWithDescriptor:desc size:size];
 }
 
-- (instancetype)fontWithSymbolicTraits:(UIFontDescriptorSymbolicTraits)symTraits
+- (instancetype)fontWithSymbolicTraits:(KBFontDescriptorSymbolicTraits)symTraits
 {
-    NSDictionary* attributes = @{UIFontDescriptorFamilyAttribute: self.familyName,
-                                 UIFontDescriptorTraitsAttribute: @{UIFontSymbolicTrait:@(symTraits)}};
-    UIFontDescriptor* desc = [UIFontDescriptor fontDescriptorWithFontAttributes:attributes];
-    return [UIFont fontWithDescriptor:desc size:self.pointSize];
+    NSDictionary* attributes = @{KBFontFamilyAttribute: self.familyName,
+                                 KBFontTraitsAttribute: @{KBFontSymbolicTrait:@(symTraits)}};
+    KBFontDescriptor* desc = [KBFontDescriptor fontDescriptorWithFontAttributes:attributes];
+    return (KBFont*)[KBFont fontWithDescriptor:desc size:self.pointSize];
 }
 
-- (UIFontDescriptorSymbolicTraits)symbolicTraits
+- (KBFontDescriptorSymbolicTraits)symbolicTraits
 {
     return self.fontDescriptor.symbolicTraits;
 }

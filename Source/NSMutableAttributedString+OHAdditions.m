@@ -31,15 +31,42 @@
 
 @implementation NSMutableAttributedString (OHAdditions)
 
++ (instancetype)attributedStringWithAttributedString:(NSAttributedString *)attrStr addingAttributes:(NSDictionary *)attributes {
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:attrStr];
+    [string addAttributes:attributes range:NSMakeRange(0, string.length)];
+    return string;
+}
+
+- (void)appendString:(NSString *)string {
+    [self appendAttributedString:[NSAttributedString attributedStringWithString:string]];
+}
+
+- (void)appendFormat:(NSString*)format, ... {
+    va_list args;
+    va_start(args, format);
+    NSString* string = [[NSString alloc] initWithFormat:format arguments:args];
+    va_end(args);
+    [self appendString:string];
+}
+
++ (instancetype)attributedStringWithFormat:(NSString*)format, ...
+{
+    va_list args;
+    va_start(args, format);
+    NSString* string = [[NSString alloc] initWithFormat:format arguments:args];
+    va_end(args);
+    return [[self alloc] initWithString:string];
+}
+
 /******************************************************************************/
 #pragma mark - Text Font
 
-- (void)setFont:(UIFont*)font
+- (void)setFont:(KBFont*)font
 {
 	[self setFont:font range:NSMakeRange(0, self.length)];
 }
 
-- (void)setFont:(UIFont*)font range:(NSRange)range
+- (void)setFont:(KBFont*)font range:(NSRange)range
 {
     if (font)
     {
@@ -52,23 +79,23 @@
 /******************************************************************************/
 #pragma mark - Text Color
 
-- (void)setTextColor:(UIColor*)color
+- (void)setTextColor:(KBColor*)color
 {
 	[self setTextColor:color range:NSMakeRange(0,self.length)];
 }
 
-- (void)setTextColor:(UIColor*)color range:(NSRange)range
+- (void)setTextColor:(KBColor*)color range:(NSRange)range
 {
 	[self removeAttribute:NSForegroundColorAttributeName range:range]; // Work around for Apple leak
 	[self addAttribute:NSForegroundColorAttributeName value:(id)color range:range];
 }
 
-- (void)setTextBackgroundColor:(UIColor*)color
+- (void)setTextBackgroundColor:(KBColor*)color
 {
     [self setTextBackgroundColor:color range:NSMakeRange(0, self.length)];
 }
 
-- (void)setTextBackgroundColor:(UIColor*)color range:(NSRange)range
+- (void)setTextBackgroundColor:(KBColor*)color range:(NSRange)range
 {
 	[self removeAttribute:NSBackgroundColorAttributeName range:range]; // Work around for Apple leak
 	[self addAttribute:NSBackgroundColorAttributeName value:(id)color range:range];
@@ -94,12 +121,12 @@
 	[self addAttribute:NSUnderlineStyleAttributeName value:@(style) range:range];
 }
 
-- (void)setTextUnderlineColor:(UIColor*)color
+- (void)setTextUnderlineColor:(KBColor*)color
 {
     [self setTextUnderlineColor:color range:NSMakeRange(0, self.length)];
 }
 
-- (void)setTextUnderlineColor:(UIColor*)color range:(NSRange)range
+- (void)setTextUnderlineColor:(KBColor*)color range:(NSRange)range
 {
 	[self removeAttribute:NSUnderlineColorAttributeName range:range]; // Work around for Apple leak
 	[self addAttribute:NSUnderlineColorAttributeName value:color range:range];
@@ -108,25 +135,25 @@
 /******************************************************************************/
 #pragma mark - Text Style & Traits
 
-- (void)changeFontTraitsWithBlock:(UIFontDescriptorSymbolicTraits(^)(UIFontDescriptorSymbolicTraits, NSRange))block
+- (void)changeFontTraitsWithBlock:(KBFontDescriptorSymbolicTraits(^)(KBFontDescriptorSymbolicTraits, NSRange))block
 {
     [self changeFontTraitsInRange:NSMakeRange(0, self.length)
                         withBlock:block];
 }
 
 - (void)changeFontTraitsInRange:(NSRange)range
-                      withBlock:(UIFontDescriptorSymbolicTraits(^)(UIFontDescriptorSymbolicTraits, NSRange))block
+                      withBlock:(KBFontDescriptorSymbolicTraits(^)(KBFontDescriptorSymbolicTraits, NSRange))block
 {
     NSParameterAssert(block);
     [self beginEditing];
     [self enumerateFontsInRange:range
                includeUndefined:YES
-                     usingBlock:^(UIFont* font, NSRange aRange, BOOL *stop)
+                     usingBlock:^(KBFont* font, NSRange aRange, BOOL *stop)
      {
          if (!font) font = [[self class] defaultFont];
-         UIFontDescriptorSymbolicTraits currentTraits = font.symbolicTraits;
-         UIFontDescriptorSymbolicTraits newTraits = block(currentTraits, aRange);
-         UIFont* newFont = [font fontWithSymbolicTraits:newTraits];
+         KBFontDescriptorSymbolicTraits currentTraits = font.symbolicTraits;
+         KBFontDescriptorSymbolicTraits newTraits = block(currentTraits, aRange);
+         KBFont* newFont = [font fontWithSymbolicTraits:newTraits];
          [self setFont:newFont range:aRange];
      }];
     [self endEditing];
@@ -141,9 +168,9 @@
 //       to see if we can also fake bold fonts by increasing the font weight
 - (void)setFontBold:(BOOL)isBold range:(NSRange)range
 {
-    [self changeFontTraitsInRange:range withBlock:^UIFontDescriptorSymbolicTraits(UIFontDescriptorSymbolicTraits currentTraits, NSRange enumeratedRange)
+    [self changeFontTraitsInRange:range withBlock:^KBFontDescriptorSymbolicTraits(KBFontDescriptorSymbolicTraits currentTraits, NSRange enumeratedRange)
      {
-         UIFontDescriptorSymbolicTraits flag = UIFontDescriptorTraitBold;
+        KBFontDescriptorSymbolicTraits flag = NSFontDescriptorTraitBold;
          return isBold ? currentTraits | flag : currentTraits & ~flag;
      }];
 }
@@ -157,9 +184,9 @@
 //       to see if we can also fake italics fonts by increasing the font skew
 - (void)setFontItalics:(BOOL)isItalics range:(NSRange)range
 {
-    [self changeFontTraitsInRange:range withBlock:^UIFontDescriptorSymbolicTraits(UIFontDescriptorSymbolicTraits currentTraits, NSRange enumeratedRange)
+    [self changeFontTraitsInRange:range withBlock:^KBFontDescriptorSymbolicTraits(KBFontDescriptorSymbolicTraits currentTraits, NSRange enumeratedRange)
      {
-         UIFontDescriptorSymbolicTraits flag = UIFontDescriptorTraitItalic;
+        KBFontDescriptorSymbolicTraits flag = NSFontDescriptorTraitItalic;
          return isItalics ? currentTraits | flag : currentTraits & ~flag;
      }];
 }
@@ -206,14 +233,14 @@
 
 - (void)setSuperscriptForRange:(NSRange)range
 {
-    UIFont* font = [self attribute:NSFontAttributeName atIndex:range.location effectiveRange:NULL];
+    KBFont* font = [self attribute:NSFontAttributeName atIndex:range.location effectiveRange:NULL];
     CGFloat offset = + font.pointSize / 2;
     [self setBaselineOffset:offset range:range];
 }
 
 - (void)setSubscriptForRange:(NSRange)range
 {
-    UIFont* font = [self attribute:NSFontAttributeName atIndex:range.location effectiveRange:NULL];
+    KBFont* font = [self attribute:NSFontAttributeName atIndex:range.location effectiveRange:NULL];
     CGFloat offset = - font.pointSize / 2;
     [self setBaselineOffset:offset range:range];
 }
