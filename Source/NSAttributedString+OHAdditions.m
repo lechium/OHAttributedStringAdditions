@@ -208,15 +208,15 @@
 {
     KBFont* font = [self fontAtIndex:index effectiveRange:aRange];
     KBFontDescriptorSymbolicTraits symTraits = font.fontDescriptor.symbolicTraits;
-    return (symTraits & NSFontDescriptorTraitBold) != 0;
+    return (symTraits & KBFontDescriptorTraitBold) != 0;
 }
 
 - (BOOL)isFontItalicsAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)aRange
 {
     KBFont* font = [self fontAtIndex:index effectiveRange:aRange];
     KBFontDescriptorSymbolicTraits symTraits = font.fontDescriptor.symbolicTraits;
-    return (symTraits & NSFontDescriptorTraitItalic) != 0;
-}//FIXME: make it work with both iOS and macOS
+    return (symTraits & KBFontDescriptorTraitItalic) != 0;
+}
 
 /******************************************************************************/
 #pragma mark - Links

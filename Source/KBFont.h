@@ -11,6 +11,8 @@ typedef NSFontDescriptorSymbolicTraits KBFontDescriptorSymbolicTraits;
 #define KBFontSymbolicTrait NSFontSymbolicTrait
 #define KBFontDescriptor NSFontDescriptor
 #define KBFontNameAttribute NSFontNameAttribute
+#define KBFontDescriptorTraitItalic NSFontDescriptorTraitItalic
+#define KBFontDescriptorTraitBold NSFontDescriptorTraitBold
 #else
 @interface KBFont: UIFont
 typedef  UIFontDescriptorSymbolicTraits KBFontDescriptorSymbolicTraits;
@@ -19,5 +21,7 @@ typedef  UIFontDescriptorSymbolicTraits KBFontDescriptorSymbolicTraits;
 #define KBFontSymbolicTrait UIFontSymbolicTrait
 #define KBFontDescriptor UIFontDescriptor
 #define KBFontNameAttribute UIFontDescriptorNameAttribute
+#define KBFontDescriptorTraitItalic UIFontDescriptorTraitItalic
+#define KBFontDescriptorTraitBold UIFontDescriptorTraitBold
 #endif
 @end

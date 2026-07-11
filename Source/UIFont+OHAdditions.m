@@ -16,8 +16,8 @@
                         italic:(BOOL)isItalic
 {
     KBFontDescriptorSymbolicTraits traits = 0;
-    if (isBold) traits |= NSFontDescriptorTraitBold;
-    if (isItalic) traits |= NSFontDescriptorTraitItalic;
+    if (isBold) traits |= KBFontDescriptorTraitBold;
+    if (isItalic) traits |= KBFontDescriptorTraitItalic;
     
     return [self fontWithFamily:fontFamily size:size traits:traits];
 }

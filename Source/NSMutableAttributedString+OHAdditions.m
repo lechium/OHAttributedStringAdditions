@@ -170,7 +170,7 @@
 {
     [self changeFontTraitsInRange:range withBlock:^KBFontDescriptorSymbolicTraits(KBFontDescriptorSymbolicTraits currentTraits, NSRange enumeratedRange)
      {
-        KBFontDescriptorSymbolicTraits flag = NSFontDescriptorTraitBold;
+        KBFontDescriptorSymbolicTraits flag = KBFontDescriptorTraitBold;
          return isBold ? currentTraits | flag : currentTraits & ~flag;
      }];
 }
@@ -186,7 +186,7 @@
 {
     [self changeFontTraitsInRange:range withBlock:^KBFontDescriptorSymbolicTraits(KBFontDescriptorSymbolicTraits currentTraits, NSRange enumeratedRange)
      {
-        KBFontDescriptorSymbolicTraits flag = NSFontDescriptorTraitItalic;
+        KBFontDescriptorSymbolicTraits flag = KBFontDescriptorTraitItalic;
          return isItalics ? currentTraits | flag : currentTraits & ~flag;
      }];
 }
